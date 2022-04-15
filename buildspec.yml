@@ -21,7 +21,6 @@ phases:
     commands:
     - echo Build started on `date`
     - echo installing composer..
-    - composer update
     - composer install 
     - echo creating .env file..
     - cp .env.example .env
