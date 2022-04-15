@@ -1,7 +1,6 @@
 
 FROM php:8.0-apache
 
-
 COPY --chown=www-data:www-data . /srv/app
 
 COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf 
@@ -26,9 +25,11 @@ RUN apt-get update && apt-get install -y  \
     && rm -rf /var/lib/apt/lists/* 
 
 # Install composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer && \
-    printf "\nPATH=\"~/.composer/vendor/bin:\$PATH\"\n" | tee -a ~/.bashrc    
+#ENV COMPOSER_ALLOW_SUPERUSER=1
+#RUN curl -sS https://getcomposer.org/installer | php && \
+#    mv composer.phar /usr/local/bin/composer && \
+#    printf "\nPATH=\"~/.composer/vendor/bin:\$PATH\"\n" | tee -a ~/.bashrc    
+
+
 
 RUN a2enmod rewrite headers 
