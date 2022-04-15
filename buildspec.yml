@@ -4,6 +4,16 @@ phases:
   install: 
     runtime-versions:
       php: 8.0
+    commands:
+    - echo "PHP Version ⬇"
+    - php -v
+    - echo "Initiation of build 🏠"
+    - echo "Installing Composer 🎺"
+    - curl -s https://getcomposer.org/installer | php
+    - mv composer.phar /usr/local/bin/composer
+    - echo "Installing dependencies 📦"
+    - composer install
+    - echo "Installed dependencies 📦"    
   pre_build: # commands to be run before build
     commands:
     - echo Logging in to Amazon ECR....
