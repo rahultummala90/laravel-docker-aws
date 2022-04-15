@@ -4,11 +4,6 @@ phases:
   install: 
     runtime-versions:
       php: 8.0
-    commands:
-    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    - php composer-setup.php ;
-    - php -r "unlink('composer-setup.php');" ;
-    - mv composer.phar /usr/local/bin/composer 
   pre_build: # commands to be run before build
     commands:
     - echo Logging in to Amazon ECR....
@@ -21,7 +16,8 @@ phases:
     commands:
     - echo Build started on `date`
     - echo installing composer..
-    - composer install --no-progress --no-suggest
+    -composer update
+    - composer install 
     - echo creating .env file..
     - cp .env.example .env
     - echo generating app key
