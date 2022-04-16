@@ -27,8 +27,7 @@ phases:
     commands:
     - echo Build started on `date`
     - echo installing composer..
-    - cd /srv/app
-    - composer install 
+    #- composer install 
     - echo creating .env file..
     - cp .env.example .env
     - echo generating app key
