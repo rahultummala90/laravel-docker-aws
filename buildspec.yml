@@ -17,7 +17,7 @@ phases:
     - mv composer.phar /usr/local/bin/composer 
   pre_build: # commands to be run before build
     commands:
-    - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASS  
+    - docker login --username rahultummala --password docker123  
     - echo Logging in to Amazon ECR....
     - aws --version
     # login to Elastic container registry
