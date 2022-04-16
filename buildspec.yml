@@ -1,0 +1,43 @@
+version: 0.2
+
+#env:
+#  secrets-manager:
+#    DOCKERHUB_PASS: "laravel-docker-aws:password"
+#    DOCKERHUB_USERNAME: "laravel-docker-aws:username"
+phases:
+  install: 
+    runtime-versions:
+      php: 8.0
+    commands:
+    #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+    #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php ;
+    - php -r "unlink('composer-setup.php');" ;
+    - mv composer.phar /usr/local/bin/composer 
+  pre_build: # commands to be run before build
+    commands:
+    - docker login --username rahultummala --password docker123  
+    - echo Logging in to Amazon ECR....
+    # login to Elastic container registry
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 912845677636.dkr.ecr.us-east-1.amazonaws.com
+    - REPOSITORY_URI=912845677636.dkr.ecr.us-east-1.amazonaws.com/docker-laravel-aws                  
+    - IMAGE_TAG=latest
+  build:
+    commands:
+    - echo Build started on `date`
+    - echo installing composer..
+   #- composer install 
+    - echo creating .env file..
+    - cp .env.example .env
+    - echo generating app key
+    - php artisan key:generate
+    - echo Building the Docker image...
+    - docker build -t $REPOSITORY_URI:latest .
+    - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker image ls -a
+      - docker push $REPOSITORY_URI:$IMAGE_TAG 

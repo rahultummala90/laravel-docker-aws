@@ -13,6 +13,7 @@ WORKDIR /srv/app
 
 
 RUN apt-get update && apt-get install -y  \
+    zip unzip \
     libfreetype6-dev \
     libjpeg-dev \
     libpng-dev \
