@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    DOCKERHUB_PASS: "/dockerhub/credentials:password"
+    DOCKERHUB_USERNAME: "/dockerhub/credentials:username"
 phases:
   install: 
     runtime-versions:
@@ -13,6 +17,7 @@ phases:
     - mv composer.phar /usr/local/bin/composer 
   pre_build: # commands to be run before build
     commands:
+    - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASS  
     - echo Logging in to Amazon ECR....
     - aws --version
     # login to Elastic container registry
