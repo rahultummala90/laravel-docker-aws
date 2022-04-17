@@ -17,11 +17,11 @@ phases:
     - mv composer.phar /usr/local/bin/composer 
   pre_build: # commands to be run before build
     commands:
-    - docker login --username rahultummala --password docker123  
+    - docker login --username  --password   
     - echo Logging in to Amazon ECR....
     # login to Elastic container registry
-    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 912845677636.dkr.ecr.us-east-1.amazonaws.com
-    - REPOSITORY_URI=912845677636.dkr.ecr.us-east-1.amazonaws.com/docker-laravel-aws                  
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin .dkr.ecr.us-east-1.amazonaws.com
+    - REPOSITORY_URI=.dkr.ecr.us-east-1.amazonaws.com/docker-laravel-aws                  
     - IMAGE_TAG=latest
   build:
     commands:
@@ -32,7 +32,7 @@ phases:
     #- cp .env.example .env
     #- echo generating app key
     #- php artisan key:generate
-    #- echo Building the Docker image...
+    - echo Building the Docker image...
     - docker build -t $REPOSITORY_URI:latest .
     - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
